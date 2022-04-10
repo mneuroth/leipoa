@@ -5,6 +5,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # ------------------------------------------------------------------------------
 
-project(Leipoa VERSION 0.1.0 LANGUAGES CXX)
+project(leipoa VERSION 0.1.0 LANGUAGES CXX)
+
+## Print variables
+#set(PATTERN ".*ABI.*")
+#get_cmake_property(_variableNames VARIABLES)
+#list (SORT _variableNames)
+#foreach (_variableName ${_variableNames})
+#    unset(MATCHED)
+#    string(REGEX MATCH ${PATTERN} MATCHED ${_variableName})
+#    if (NOT MATCHED)
+#        continue()
+#    endif()
+#    message(STATUS "${_variableName}=${${_variableName}}")
+#endforeach()
 
 add_subdirectory(ui-qml)

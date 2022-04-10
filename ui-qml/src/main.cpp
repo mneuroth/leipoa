@@ -4,6 +4,8 @@
 #include <QLocale>
 #include <QTranslator>
 
+#include "qmlaes.h"
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
@@ -26,6 +28,12 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
+
+    // Test qmlaes
+    QString key = "r]g)pm'y]1t?v`dfe[j/5g9b&&3(%hca";
+    QString plainText = "This is a secret message ;)";
+    QByteArray encryptedText = QmlAES::encrypt(plainText, key).toByteArray();
+    QString decyptedText = QmlAES::decrypt(encryptedText, key).toString();
 
     return app.exec();
 }

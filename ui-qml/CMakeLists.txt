@@ -7,10 +7,27 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(leipoa VERSION 0.1 LANGUAGES CXX)
 
-find_package(Qt6 6.2 COMPONENTS Quick REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Core Quick REQUIRED)
+
+if (ANDROID)
+    if(DEFINED ENV{ANDROID_OPENSSL})
+        include($ENV{ANDROID_OPENSSL}/CMakeLists-OpenSSL-Android.txt)
+    else()
+        message( FATAL_ERROR "Environment variable ANDROID_OPENSSL not set!" )
+    endif()
+    set (EXTRA_LIBS
+        ${ANDROID_EXTRA_LIBS}
+    )
+else()
+    set (EXTRA_LIBS
+        ssl crypto
+    )
+endif()
+find_package(OpenSSL REQUIRED)
 
 qt_add_executable(appleipoa
     src/main.cpp
+    src/qmlaes.cpp
 )
 
 qt_add_qml_module(appleipoa
@@ -29,5 +46,12 @@ set_target_properties(appleipoa PROPERTIES
 
 target_compile_definitions(appleipoa
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
+target_include_directories(appleipoa
+    PRIVATE ${OPENSSL_INCLUDE_DIR})
+
 target_link_libraries(appleipoa
-    PRIVATE Qt6::Quick)
+    PRIVATE Qt6::Quick ${ANDROID_EXTRA_LIBS})
+
+target_link_libraries(appleipoa
+    PRIVATE Qt6::Quick ${EXTRA_LIBS})
