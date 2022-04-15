@@ -1,35 +1,36 @@
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set (SSL_ROOT_PATH ${CMAKE_CURRENT_LIST_DIR}/no-asm)
-else()
-    set (SSL_ROOT_PATH ${CMAKE_CURRENT_LIST_DIR})
-endif()
+set (SSL_ROOT_PATH ${CMAKE_CURRENT_LIST_DIR})
+
+message(STATUS "ANDROID_ARCH_NAME=${ANDROID_ARCH_NAME}")
 
 set(OPENSSL_ROOT_DIR
     ${SSL_ROOT_PATH}
     CACHE INTERNAL "")
 
 set(OPENSSL_INCLUDE_DIR
-    ${SSL_ROOT_PATH}/static/include
+    ${SSL_ROOT_PATH}/include/${ANDROID_ARCH_NAME}
     CACHE INTERNAL "")
 
 set(OPENSSL_CRYPTO_LIBRARY
-    ${SSL_ROOT_PATH}/static/lib/x86_64
+    ${SSL_ROOT_PATH}/lib/${ANDROID_ARCH_NAME}
     CACHE INTERNAL "")
 
-message(STATUS "ANDROID_ARCH_NAME=${ANDROID_ARCH_NAME}")
+if(NOT EXISTS ${OPENSSL_INCLUDE_DIR})
+    message(FATAL_ERROR "Create the OpenSSL include files for the Android architecture ${ANDROID_ARCH_NAME} first. See ${SSL_ROOT_PATH}/README.md")
+elseif(NOT EXISTS ${OPENSSL_CRYPTO_LIBRARY})
+    message(FATAL_ERROR "Create the OpenSSL libraries for the Android architecture ${ANDROID_ARCH_NAME} first. See ${SSL_ROOT_PATH}/README.md")
+endif()
 
 set(ANDROID_EXTRA_LIBS
-    ${SSL_ROOT_PATH}/latest/${ANDROID_ARCH_NAME}/libcrypto_1_1.so
-    ${SSL_ROOT_PATH}/latest/${ANDROID_ARCH_NAME}/libssl_1_1.so
+    ${OPENSSL_CRYPTO_LIBRARY}/libcrypto.so
+    ${OPENSSL_CRYPTO_LIBRARY}/libssl.so
     CACHE INTERNAL "")
 
 set(ANDROID_EXTRA_LIBS
-    ${SSL_ROOT_PATH}/static/lib/${ANDROID_ARCH_NAME}/libcrypto.a
-    ${SSL_ROOT_PATH}/static/lib/${ANDROID_ARCH_NAME}/libssl.a
+    ${OPENSSL_CRYPTO_LIBRARY}/libcrypto.a
+    ${OPENSSL_CRYPTO_LIBRARY}/libssl.a
     CACHE INTERNAL "")
 
 message(STATUS "SSL_ROOT_PATH=${SSL_ROOT_PATH}")
 message(STATUS "ANDROID_EXTRA_LIBS=${ANDROID_EXTRA_LIBS}")
 message(STATUS "OPENSSL_CRYPTO_LIBRARY=${OPENSSL_CRYPTO_LIBRARY}")
 message(STATUS "OPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}")
-

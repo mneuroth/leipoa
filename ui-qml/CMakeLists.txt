@@ -9,20 +9,6 @@ project(leipoa VERSION 0.1 LANGUAGES CXX)
 
 find_package(Qt6 6.2 COMPONENTS Core Quick REQUIRED)
 
-if (ANDROID)
-    if(DEFINED ENV{ANDROID_OPENSSL})
-        include($ENV{ANDROID_OPENSSL}/CMakeLists-OpenSSL-Android.txt)
-    else()
-        message( FATAL_ERROR "Environment variable ANDROID_OPENSSL not set!" )
-    endif()
-    set (EXTRA_LIBS
-        ${ANDROID_EXTRA_LIBS}
-    )
-else()
-    set (EXTRA_LIBS
-        ssl crypto
-    )
-endif()
 find_package(OpenSSL REQUIRED)
 
 qt_add_executable(appleipoa
@@ -46,6 +32,9 @@ set_target_properties(appleipoa PROPERTIES
 
 target_compile_definitions(appleipoa
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
+message("INCLUDE")
+message(${OPENSSL_INCLUDE_DIR})
 
 target_include_directories(appleipoa
     PRIVATE ${OPENSSL_INCLUDE_DIR})
