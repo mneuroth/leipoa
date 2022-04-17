@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(leipoa VERSION 0.1.0 LANGUAGES CXX)
 
+include_directories(./lib/public)
+
 function(printVariables)
     # Print variables
     set(PATTERN ".*")
