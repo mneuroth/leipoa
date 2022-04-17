@@ -1,0 +1,29 @@
+set (QTMQTT_ROOT_PATH ${CMAKE_CURRENT_LIST_DIR}/QtMqtt)
+
+if (ANDROID)
+    set(ARCH
+        android_${ANDROID_NDK_ABI_NAME}
+        CACHE INTERNAL "")
+    set(ABI
+        "_${ANDROID_NDK_ABI_NAME}"
+        CACHE INTERNAL "")
+else()
+    set(ARCH
+        "gcc_64"
+        CACHE INTERNAL "")
+    set(ABI
+        ""
+        CACHE INTERNAL "")
+endif()
+
+set(QTMQTT_INCLUDE_DIR
+    ${QTMQTT_ROOT_PATH}/include/${ARCH}/${CMAKE_BUILD_TYPE}
+    CACHE INTERNAL "")
+
+set(QTMQTT_LIBRARY
+    ${QTMQTT_ROOT_PATH}/lib/${ARCH}/${CMAKE_BUILD_TYPE}/libQt6Mqtt${ABI}.so
+    CACHE INTERNAL "")
+
+message(STATUS "QTMQTT_ROOT_PATH=${QTMQTT_ROOT_PATH}")
+message(STATUS "QTMQTT_INCLUDE_DIR=${QTMQTT_INCLUDE_DIR}")
+message(STATUS "QTMQTT_LIBRARY=${QTMQTT_LIBRARY}")

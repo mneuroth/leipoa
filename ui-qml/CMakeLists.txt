@@ -10,6 +10,7 @@ project(leipoa VERSION 0.1 LANGUAGES CXX)
 find_package(Qt6 6.3 COMPONENTS Core Quick REQUIRED)
 
 find_package(OpenSSL REQUIRED)
+#find_package(QtMqtt REQUIRED)
 
 qt_add_executable(appleipoa
     src/main.cpp
@@ -39,8 +40,14 @@ message(${OPENSSL_INCLUDE_DIR})
 target_include_directories(appleipoa
     PRIVATE ${OPENSSL_INCLUDE_DIR})
 
+target_include_directories(appleipoa
+    PRIVATE ${QTMQTT_INCLUDE_DIR})
+
 target_link_libraries(appleipoa
     PRIVATE Qt6::Quick ${ANDROID_EXTRA_LIBS})
 
 target_link_libraries(appleipoa
     PRIVATE Qt6::Quick ${EXTRA_LIBS})
+
+target_link_libraries(appleipoa
+    PRIVATE ${QTMQTT_LIBRARY})

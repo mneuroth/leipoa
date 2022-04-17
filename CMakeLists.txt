@@ -24,14 +24,7 @@ endfunction()
 
 #printVariables()
 
-if (ANDROID)
-    include(${CMAKE_CURRENT_LIST_DIR}/lib/android_openssl/CMakeLists.txt)
-else()
-    set (EXTRA_LIBS
-        ssl crypto
-    )
-endif()
-
-#include(${CMAKE_CURRENT_LIST_DIR}/lib/qtmqtt/CMakeLists.txt)
+include(${CMAKE_CURRENT_LIST_DIR}/lib/public/CMakeLists-OpenSSL.txt)
+include(${CMAKE_CURRENT_LIST_DIR}/lib/public/CMakeLists-QtMqtt.txt)
 
 add_subdirectory(ui-qml)
