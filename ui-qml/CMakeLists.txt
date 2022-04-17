@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(leipoa VERSION 0.1 LANGUAGES CXX)
 
-find_package(Qt6 6.2 COMPONENTS Core Quick REQUIRED)
+find_package(Qt6 6.3 COMPONENTS Core Quick REQUIRED)
 
 find_package(OpenSSL REQUIRED)
 

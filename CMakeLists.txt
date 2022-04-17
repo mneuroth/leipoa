@@ -32,6 +32,6 @@ else()
     )
 endif()
 
-include(${CMAKE_CURRENT_LIST_DIR}/lib/qtmqtt/CMakeLists.txt)
+#include(${CMAKE_CURRENT_LIST_DIR}/lib/qtmqtt/CMakeLists.txt)
 
 add_subdirectory(ui-qml)
