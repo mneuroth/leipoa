@@ -1,23 +1,27 @@
 set (SSL_ROOT_PATH ${CMAKE_CURRENT_LIST_DIR})
 
-message(STATUS "ANDROID_ARCH_NAME=${ANDROID_ARCH_NAME}")
+message(STATUS "ANDROID_NDK_ABI_NAME=${ANDROID_NDK_ABI_NAME}")
 
 set(OPENSSL_ROOT_DIR
     ${SSL_ROOT_PATH}
     CACHE INTERNAL "")
 
 set(OPENSSL_INCLUDE_DIR
-    ${SSL_ROOT_PATH}/include/${ANDROID_ARCH_NAME}
+    ${SSL_ROOT_PATH}/include/android_${ANDROID_NDK_ABI_NAME}
     CACHE INTERNAL "")
 
 set(OPENSSL_CRYPTO_LIBRARY
-    ${SSL_ROOT_PATH}/lib/${ANDROID_ARCH_NAME}
+    ${SSL_ROOT_PATH}/lib/android_${ANDROID_NDK_ABI_NAME}
     CACHE INTERNAL "")
 
+message(STATUS "SSL_ROOT_PATH=${SSL_ROOT_PATH}")
+message(STATUS "OPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}")
+message(STATUS "OPENSSL_CRYPTO_LIBRARY=${OPENSSL_CRYPTO_LIBRARY}")
+
 if(NOT EXISTS ${OPENSSL_INCLUDE_DIR})
-    message(FATAL_ERROR "Create the OpenSSL include files for the Android architecture ${ANDROID_ARCH_NAME} first. See ${SSL_ROOT_PATH}/README.md")
+    message(FATAL_ERROR "Create the OpenSSL include files for the Android architecture ${ANDROID_NDK_ABI_NAME} first. See ${SSL_ROOT_PATH}/README.md")
 elseif(NOT EXISTS ${OPENSSL_CRYPTO_LIBRARY})
-    message(FATAL_ERROR "Create the OpenSSL libraries for the Android architecture ${ANDROID_ARCH_NAME} first. See ${SSL_ROOT_PATH}/README.md")
+    message(FATAL_ERROR "Create the OpenSSL libraries for the Android architecture ${ANDROID_NDK_ABI_NAME} first. See ${SSL_ROOT_PATH}/README.md")
 endif()
 
 set(ANDROID_EXTRA_LIBS
@@ -30,7 +34,4 @@ set(ANDROID_EXTRA_LIBS
     ${OPENSSL_CRYPTO_LIBRARY}/libssl.a
     CACHE INTERNAL "")
 
-message(STATUS "SSL_ROOT_PATH=${SSL_ROOT_PATH}")
 message(STATUS "ANDROID_EXTRA_LIBS=${ANDROID_EXTRA_LIBS}")
-message(STATUS "OPENSSL_CRYPTO_LIBRARY=${OPENSSL_CRYPTO_LIBRARY}")
-message(STATUS "OPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}")
